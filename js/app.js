@@ -3,6 +3,8 @@ const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded)
 const label = document.getElementById("label");
 let classifier
 
+
+//query selectors
 const labelOneBtn = document.querySelector("#labelOne");
 const labelTwoBtn = document.querySelector("#labelTwo");
 const labelThreeBtn = document.querySelector("#labelThree");
@@ -11,12 +13,14 @@ const trainbtn = document.querySelector("#train");
 const nomaskbtn = document.querySelector("#nomask")
 const maskbtn = document.querySelector("#mask")
 
-labelOneBtn.addEventListener("click", () => console.log("button 1"));
-labelTwoBtn.addEventListener("click", () => console.log("button 2"));
-labelThreeBtn.addEventListener("click", () => console.log("button 3"));
 
-nomaskbtn.addEventListener("click", () => addNoMask())
-maskbtn.addEventListener("click", () => addMask())
+//eventlistners
+labelOneBtn.addEventListener("click", () => addLabel1(), console.log("button 1"));
+labelTwoBtn.addEventListener("click", () => addLabel2(), console.log("button 2"));
+labelThreeBtn.addEventListener("click", () => addLabel3(), console.log("button 3"));
+
+// nomaskbtn.addEventListener("click", () => addNoMask())
+// maskbtn.addEventListener("click", () => addMask())
 trainbtn.addEventListener("click", () => train())
 trainbtn.addEventListener("click", () => console.log("train"));
 
@@ -40,12 +44,16 @@ function videoReady(){
     console.log(classifier)
 }
 
-function addNoMask(){
-    classifier.addImage(video, "draagt geen masker", addedImage)
+function addLabel1(){
+    classifier.addImage(video, "Label 1", addedImage)
 }
 
-function addMask() {
-    classifier.addImage(video, "draagt masker", addedImage)
+function addLabel2() {
+    classifier.addImage(video, "Label 2", addedImage)
+}
+
+function addLabel3() {
+    classifier.addImage(video, "Label 3", addedImage)
 }
 
 function train(){
