@@ -1,8 +1,6 @@
-
-// const video = document.getElementById("webcam");
+const video = document.getElementById("webcam");
 const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded)
 const label = document.getElementById("label");
-const label2 = document.getElementById("label2");
 let classifier
 let synth = window.speechSynthesis
 let scores = 0
@@ -11,7 +9,6 @@ const score = document.getElementById("score");
 //query selectors
 // const labelOneBtn = document.querySelector("#labelOne");
 // const labelTwoBtn = document.querySelector("#labelTwo");
-// const labelThreeBtn = document.querySelector("#labelThree");
 // const trainbtn = document.querySelector("#train");
 // const savebtn = document.querySelector("#save");
 // const btn = document.querySelector("#speak");
@@ -44,9 +41,9 @@ function speak(text) {
 
 if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
-        .getUserMedia({ image: true })
+        .getUserMedia({ video: true })
         .then((stream) => {
-            image.srcObject = stream;
+            video.srcObject = stream;
         })
         .catch((err) => {
             console.log("Something went wrong!");
@@ -54,11 +51,10 @@ if (navigator.mediaDevices.getUserMedia) {
 }
 
 label.innerText = "Ready when you are!";
-label2.innerText = "Ready when you are!";
 
 function modelLoaded(){
     console.log("The mobileNet model is loaded!")
-    classifier = featureExtractor.classification(image, videoReady)
+    classifier = featureExtractor.classification(video, videoReady)
     classifier.load('model.json', customModelReady());
 }
 
@@ -70,8 +66,6 @@ function customModelReady(){
 function videoReady(){
     console.log(classifier)
 }
-
-
 
 // function addMotor(){
 //     classifier.addImage(video, "Motor", ()=>{
@@ -90,7 +84,7 @@ function train(){
     classifier.train((lossValue) => {
         console.log(lossValue)
         if(lossValue == null){
-            startClassifying()
+            userImageUploaded()
         }
     })
 }
@@ -100,15 +94,26 @@ function save(){
 
 }
 
+// function startClassifying(){
+//     setInterval(()=>{
+//         classifier.classify(video, (err, result)=>{
+//             if(err) console.log(err)
+//             console.log(result)
+//             label.innerHTML = result[0].label
+//         })
+//     }, 1000)
+// }
+
 function userImageUploaded(){
     console.log("The image is now visible in the DOM")
     intervalId = setInterval(()=>{
         classifier.classify(image, (err, result) => {
             if (err) console.log(err)
             console.log(result)
-            label.innerText = result[0].label
-            label2.innerText = result[1].label
-            speak(result[0].label) 
+            // label.innerText = result[0].label
+            console.log(label.innerText = result[0].label)
+            label.innerText = `This is probably a ${result[0].label} (I'm ${Math.round(result[0].confidence * 100)}% confident) or a ${result[1].label}`;
+            speak(`This is probably a ${result[0].label} (I'm ${Math.round(result[0].confidence * 100)}% confident) or a ${result[1].label}`) 
             scores++
             score.innerText = "Score = " + scores
             console.log(scores)   
@@ -120,12 +125,10 @@ function userImageUploaded(){
       }, 21)
 }   
 
+function addedImage(){
+    console.log("added image to network")
+}
 
-
-// function addedImage(){
-//     console.log("added image to network")
-// }
-
-// function userImageUploaded(){
-//     console.log("The image is now visible in the DOM")
-// }
+function userImageUploaded(){
+    console.log("The image is now visible in the DOM")
+}
