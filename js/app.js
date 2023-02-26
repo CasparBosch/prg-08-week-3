@@ -1,56 +1,83 @@
+
 const video = document.getElementById("webcam");
 const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded)
 const label = document.getElementById("label");
 let classifier
-
+let synth = window.speechSynthesis
 
 //query selectors
 const labelOneBtn = document.querySelector("#labelOne");
 const labelTwoBtn = document.querySelector("#labelTwo");
 const labelThreeBtn = document.querySelector("#labelThree");
 const trainbtn = document.querySelector("#train");
-
-const nomaskbtn = document.querySelector("#nomask")
-const maskbtn = document.querySelector("#mask")
-
+const savebtn = document.querySelector("#save");
+// const btn = document.querySelector("#speak");
+const image = document.getElementById('output')
+const fileButton = document.querySelector("#file")
 
 //eventlistners
-labelOneBtn.addEventListener("click", () => addLabel1(), console.log("button 1"));
-labelTwoBtn.addEventListener("click", () => addLabel2(), console.log("button 2"));
-labelThreeBtn.addEventListener("click", () => addLabel3(), console.log("button 3"));
-
-// nomaskbtn.addEventListener("click", () => addNoMask())
-// maskbtn.addEventListener("click", () => addMask())
-trainbtn.addEventListener("click", () => train())
-trainbtn.addEventListener("click", () => console.log("train"));
+labelOneBtn.addEventListener("click", () => addMotor(), console.log("button 1"));
+labelTwoBtn.addEventListener("click", () => addAuto(), console.log("button 2"));
+trainbtn.addEventListener("click", () => train(), console.log("train"));
+savebtn.addEventListener("click", () => save());
+// btn.addEventListener("click", () => {
+//     speak('')
+//   })
+fileButton.addEventListener("change", (event)=>{
+    image.src = URL.createObjectURL(event.target.files[0])
+})
+image.addEventListener('load', () => userImageUploaded())
 
 if (navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ image: true })
         .then((stream) => {
-            video.srcObject = stream;
+            image.srcObject = stream;
         })
         .catch((err) => {
             console.log("Something went wrong!");
         });
 }
 
+label.innerText = "Ready when you are!";
+
 function modelLoaded(){
     console.log("The mobileNet model is loaded!")
-    classifier = featureExtractor.classification(video, videoReady)
+    classifier = featureExtractor.classification(image, videoReady)
+    classifier.load('model.json', customModelReady());
+}
+
+function customModelReady(){
+    console.log('Custom Model is ready!');
+    label.innerText = 'Model is Ready!'
 }
 
 function videoReady(){
     console.log(classifier)
 }
 
-function addLabel1(){
-    classifier.addImage(video, "Label 1", addedImage)
+function speak(text) {
+    if (synth.speaking) {
+        console.log('still speaking...')
+        return
+    }
+    if (text !== '') {
+        let utterThis = new SpeechSynthesisUtterance(text)
+        synth.speak(utterThis)
+    }
 }
 
-function addLabel2() {
-    classifier.addImage(video, "Label 2", addedImage)
-}
+// function addMotor(){
+//     classifier.addImage(video, "Motor", ()=>{
+//         console.log("added image to model!")
+//     })
+// }
+
+// function addAuto(){
+//     classifier.addImage(video, "Auto", ()=>{
+//         console.log("added image to model!")
+//     })
+// }
 
 function train(){
     console.log("start training...")
@@ -62,12 +89,18 @@ function train(){
     })
 }
 
+function save(){
+    classifier.save();
+
+}
+
 function startClassifying(){
     setInterval(()=>{
-        classifier.classify(video, (err, result)=>{
+        classifier.classify(image, (err, result)=>{
             if(err) console.log(err)
             console.log(result)
-            label.innerHTML = result[0].label
+            label.innerText = result[0].label
+            speak(result[0].label)
         })
     }, 1000)
 }
@@ -76,4 +109,6 @@ function addedImage(){
     console.log("added image to network")
 }
 
-label.innerText = "Ready when you are!";
+function userImageUploaded(){
+    console.log("The image is now visible in the DOM")
+}
