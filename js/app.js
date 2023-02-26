@@ -34,7 +34,7 @@ label.innerText = "Loading Model";
 function modelLoaded() {
     console.log('Model Loaded!')
     classifier = featureExtractor.classification(image, videoReady)
-    classifier.load('model.json', customModelReady)
+    classifier.load('./model/model.json', customModelReady)
 }
 
 //custom model
