@@ -27,4 +27,6 @@ button:hover {
 /* flip the video image */
 video {
     transform: scaleX(-1);
+    width: auto;
+    height: auto;
 }

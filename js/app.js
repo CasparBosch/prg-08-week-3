@@ -52,10 +52,6 @@ function addLabel2() {
     classifier.addImage(video, "Label 2", addedImage)
 }
 
-function addLabel3() {
-    classifier.addImage(video, "Label 3", addedImage)
-}
-
 function train(){
     console.log("start training...")
     classifier.train((lossValue) => {
