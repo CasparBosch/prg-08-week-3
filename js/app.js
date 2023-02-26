@@ -55,8 +55,8 @@ function userImageUploaded(){
         classifier.classify(image, (err, result) => {
             if (err) console.log(err)
             console.log(result)
-            label.innerText = `This is probably a ${result[0].label} (I'm ${Math.round(result[0].confidence * 100)}% confident) or a ${result[1].label} (I'm ${Math.round(result[1].confidence * 100)}% confident)`;
-            speak(`This is probably a ${result[0].label} (I'm ${Math.round(result[0].confidence * 100)}% confident) or a ${result[1].label} (I'm ${Math.round(result[1].confidence * 100)}% confident)`)
+            label.innerText = `Dit is waarschijnlijk een ${result[0].label} (ik ben er ${Math.round(result[0].confidence * 100)}% zeker van). Of een ${result[1].label} (hier ben ik ${Math.round(result[1].confidence * 100)}% zeker van)`;
+            speak(`Dit is waarschijnlijk een ${result[0].label} (ik ben er ${Math.round(result[0].confidence * 100)}% zeker van). Of een ${result[1].label} (hier ben ik ${Math.round(result[1].confidence * 100)}% zeker van)`)
             scores ++
             score.innerText = "Score = " + scores
             console.log(scores)
