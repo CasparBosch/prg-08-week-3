@@ -1,13 +1,39 @@
+html{
+    background-color: darkgreen;
+}
+
 body {
     font-family: sans-serif;
-    background-color: darkgreen;
+    color: aliceblue;
 }
 
 #label {
     width: 533px;
     height: 20px;
     color: white;
-    background-color: black;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}   
+#file {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+#header {   
+    text-align: center;
+    font-size: xx-large;
+}
+#intro{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#output{
+    display: block;
+    margin-left: auto;
+    margin-right: auto
 }
 
 button {
@@ -27,6 +53,4 @@ button:hover {
 /* flip the video image */
 video {
     transform: scaleX(-1);
-    width: auto;
-    height: auto;
 }
