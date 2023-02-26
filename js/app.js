@@ -2,8 +2,11 @@
 // const video = document.getElementById("webcam");
 const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded)
 const label = document.getElementById("label");
+const label2 = document.getElementById("label2");
 let classifier
 let synth = window.speechSynthesis
+let scores = 0
+const score = document.getElementById("score");
 
 //query selectors
 // const labelOneBtn = document.querySelector("#labelOne");
@@ -51,6 +54,7 @@ if (navigator.mediaDevices.getUserMedia) {
 }
 
 label.innerText = "Ready when you are!";
+label2.innerText = "Ready when you are!";
 
 function modelLoaded(){
     console.log("The mobileNet model is loaded!")
@@ -96,17 +100,6 @@ function save(){
 
 }
 
-// function startClassifying(){
-//     setInterval(()=>{
-//         classifier.classify(image, (err, result)=>{
-//             if(err) console.log(err)
-//             console.log(result)
-//             label.innerText = result[0].label
-//             speak(result[0].label)
-//         })
-//     }, 1000)
-// }
-
 function userImageUploaded(){
     console.log("The image is now visible in the DOM")
     intervalId = setInterval(()=>{
@@ -114,13 +107,20 @@ function userImageUploaded(){
             if (err) console.log(err)
             console.log(result)
             label.innerText = result[0].label
-            speak(result[0].label)
+            label2.innerText = result[1].label
+            speak(result[0].label) 
+            scores++
+            score.innerText = "Score = " + scores
+            console.log(scores)   
+            
         })
     }, 20)
     setTimeout(() => {
         clearInterval(intervalId);
       }, 21)
 }   
+
+
 
 // function addedImage(){
 //     console.log("added image to network")
