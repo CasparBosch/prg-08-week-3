@@ -1,5 +1,5 @@
 //definitions
-const video = document.getElementById("webcam");
+// const video = document.getElementById("webcam");
 const label = document.getElementById("label");
 const score = document.getElementById("score");
 const featureExtractor = ml5.featureExtractor('MobileNet',{numLabels : 3}, modelLoaded)
