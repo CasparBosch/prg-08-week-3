@@ -20,6 +20,7 @@ function speak(text) {
     }
 }
 
+
 //file upload
 fileButton.addEventListener("change", (event)=>{
     image.src = URL.createObjectURL(event.target.files[0])
